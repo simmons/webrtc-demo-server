@@ -1,0 +1,25 @@
+[package]
+name = "webrtc-demo-server"
+version = "0.1.0"
+authors = ["David Simmons <simmons@davidsimmons.com>"]
+license = "MIT/Apache-2.0"
+repository = "https://github.com/simmons/webrtc-demo-server"
+keywords = ["webrtc" ]
+description = """
+Demonstrate WebRTC with a backend signalling server.
+"""
+readme = "README.md"
+
+[dependencies]
+env_logger = "0.5"
+actix = "0.7"
+actix-web = "0.7"
+futures = "0.1"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
+dotenv = "0.10"
+clap = "2.32"
+log = "0.4"
+rand = "0.5"
+woothee = "0.8"

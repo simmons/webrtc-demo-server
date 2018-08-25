@@ -1,0 +1,4 @@
+
+cat adj.txt | perl -p -e 'if (rand() < 0.8) { undef($_) }' > a.txt
+cat nouns.txt | perl -p -e 'if (rand() < 0.75) { undef($_) }' > n.txt
+
