@@ -125,7 +125,18 @@ impl Handler<Connect> for Lobby {
         }
 
         // Create a new random name for this connection.
-        let name = self.generate_name();
+        let name = if let None = msg.user_agent {
+            // No user agent, so assume this is the test client.
+            static TEST_CLIENT_NAME: &str = "Rusty McRustFace";
+            if self.clients.contains_key(TEST_CLIENT_NAME) {
+                // The static name is already taken, so select a regular name.
+                self.generate_name()
+            } else {
+                Some(TEST_CLIENT_NAME.to_string())
+            }
+        } else {
+            self.generate_name()
+        };
         let name = match name {
             Some(name) => name,
             // We somehow can't come up with an original name, and don't want to loop forever.
