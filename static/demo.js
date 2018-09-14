@@ -54,6 +54,16 @@
                     td.appendChild(document.createTextNode(part));
                     needBr = true;
                 }
+            } else {
+                if (needBr) {
+                    td.appendChild(document.createElement('br'));
+                }
+                let span = document.createElement('span');
+                span.style.color = '#b7410e';
+                let b = document.createElement('b');
+                b.appendChild(document.createTextNode("Rust client"));
+                span.appendChild(b);
+                td.appendChild(span);
             }
             tr.append(td);
 
