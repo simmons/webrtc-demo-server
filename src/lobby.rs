@@ -66,6 +66,20 @@ impl Lobby {
             }
         }
     }
+
+    fn generate_name(&self) -> Option<String> {
+        let mut name = names::generate();
+        let mut count = 0usize;
+        while self.clients.contains_key(&name) {
+            if count > MAX_CLIENTS {
+                // We somehow can't come up with an original name, and don't want to loop forever.
+                return None;
+            }
+            name = names::generate();
+            count += 1;
+        }
+        Some(name)
+    }
 }
 
 impl Actor for Lobby {
@@ -111,16 +125,12 @@ impl Handler<Connect> for Lobby {
         }
 
         // Create a new random name for this connection.
-        let mut name = names::generate();
-        let mut count = 0usize;
-        while self.clients.contains_key(&name) {
-            if count > MAX_CLIENTS {
-                // We somehow can't come up with an original name, and don't want to loop forever.
-                return ConnectResponse { roster: None };
-            }
-            name = names::generate();
-            count += 1;
-        }
+        let name = self.generate_name();
+        let name = match name {
+            Some(name) => name,
+            // We somehow can't come up with an original name, and don't want to loop forever.
+            None => return ConnectResponse { roster: None },
+        };
 
         // Add the new client to the lobby.
         self.clients.insert(name.clone(), ConnectedClient {
